@@ -18,11 +18,11 @@ namespace FriendOrganizer2.UI.Data
             _contextCreator = contextCreator;
         }
 
-        public async Task<List<Friend>> GetallAsync()
+        public async Task<Friend> GetBYIdAsync(int friendId)
         {
             using (var ctx = _contextCreator())
             {
-                return await ctx.Friends.AsNoTracking().ToListAsync();
+                return await ctx.Friends.AsNoTracking().SingleAsync(f => f.Id == friendId);
             }
         }
     }
