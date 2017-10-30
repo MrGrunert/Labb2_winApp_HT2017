@@ -7,5 +7,6 @@ namespace FriendOrganizer2.UI.Data
     public interface IFriendDataService
     {
         Task<Friend> GetBYIdAsync(int friendId);
+        Task SaveAsync(Friend friend);
     }
 }
