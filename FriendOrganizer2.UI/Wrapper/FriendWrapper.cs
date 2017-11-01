@@ -1,23 +1,36 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FriendOrganizer2.Model;
-using FriendOrganizer2.UI.ViewModel;
 
 namespace FriendOrganizer2.UI.Wrapper
 {
-    public class FriendWrapper : ViewModelBase, INotifyDataErrorInfo
+    public class ModelWrapper<T> :NotifyDataErrorInfoBase
     {
-        public Friend Model { get; }
+        public T Model { get; }
+
+        public ModelWrapper(T model)
+        {
+            Model = model;
+        }
+
+        protected virtual TValue GetValue<TValue>([CallerMemberName]string propertyName = null)
+        {
+            return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
+
+        }
+
+    }
+
+    public class FriendWrapper : ModelWrapper<Friend>
+    {
+        
         public int Id { get { return Model.Id; } }
 
         public string FirstName
         {
-            get { return Model.FirstName; }
+            get { return GetValue<string>(); }
             set
             {
                 Model.FirstName = value;
@@ -26,11 +39,11 @@ namespace FriendOrganizer2.UI.Wrapper
             }
         }
 
-      
+       
 
         public string LastName
         {
-            get { return Model.LastName; }
+            get { return GetValue<string>(); }
             set
             {
                 Model.LastName = value;
@@ -40,7 +53,7 @@ namespace FriendOrganizer2.UI.Wrapper
 
         public string Email
         {
-            get { return Model.Email; }
+            get { return GetValue<string>(); }
             set
             {
                 Model.Email = value;
@@ -48,23 +61,7 @@ namespace FriendOrganizer2.UI.Wrapper
             }
         }
 
-        public bool HasErrors => _errorByPropertyName.Any();
-        private Dictionary<string, List<string>> _errorByPropertyName
-            = new Dictionary<string, List<string>>();
-
-        public FriendWrapper(Friend model)
-        {
-            Model = model;
-        }
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            return _errorByPropertyName.ContainsKey(propertyName)
-                ? _errorByPropertyName[propertyName]
-                : null;
-        }
+      
 
         private void ValidateProperty(string propertyName)
         {
@@ -81,34 +78,8 @@ namespace FriendOrganizer2.UI.Wrapper
 
         }
 
-        private void OnErrorChanged(string propertyName)
+        public FriendWrapper(Friend model) : base(model)
         {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
-
-        private void AddError(string propertyName, string error)
-        {
-            if (!_errorByPropertyName.ContainsKey(propertyName))
-            {
-                _errorByPropertyName[propertyName] = new List<string>();
-            }
-            if (!_errorByPropertyName[propertyName].Contains(error))
-            {
-                _errorByPropertyName[propertyName].Add(error);
-                OnErrorChanged(propertyName);
-            }
-
-        }
-
-        private void ClearErrors(string propertyName)
-        {
-            if (_errorByPropertyName.ContainsKey(propertyName))
-            {
-                _errorByPropertyName.Remove(propertyName);
-                OnErrorChanged(propertyName);
-            }
-        }
-
-
     }
 }
