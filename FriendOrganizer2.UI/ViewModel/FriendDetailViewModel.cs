@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FriendOrganizer2.Model;
 using FriendOrganizer2.UI.Data;
+using FriendOrganizer2.UI.Data.Repositories;
 using FriendOrganizer2.UI.Event;
 using FriendOrganizer2.UI.Wrapper;
 using Prism.Commands;
@@ -15,8 +16,9 @@ namespace FriendOrganizer2.UI.ViewModel
 {
    public  class FriendDetailViewModel : ViewModelBase, IFriendDetailViewModel
     {
+        private bool _hasChanges;
         private FriendWrapper _friend;
-        private IFriendDataService _dataService;
+        private IFriendRepository _friendRepository;
         private IEventAggregator _eventAggregator;
 
         public ICommand SaveCommand { get; }
@@ -34,12 +36,31 @@ namespace FriendOrganizer2.UI.ViewModel
             }
         }
 
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+               
+            }
+        }
+
         public async Task LoadAsync(int friendId)
         {
-            var friend = await _dataService.GetBYIdAsync(friendId);
+            var friend = await _friendRepository.GetBYIdAsync(friendId);
             Friend = new FriendWrapper(friend);
             Friend.PropertyChanged += (s, e) =>
             {
+                if (!HasChanges)
+                {
+                    HasChanges = _friendRepository.HasChanges();
+                }
                 if (e.PropertyName == nameof(Friend.HasErrors))
                 {
                     ((DelegateCommand) SaveCommand).RaiseCanExecuteChanged();
@@ -48,20 +69,20 @@ namespace FriendOrganizer2.UI.ViewModel
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
-        public FriendDetailViewModel(IFriendDataService dataService,
+        public FriendDetailViewModel(IFriendRepository dataService,
             IEventAggregator eventAggregator)
         {
-            _dataService = dataService;
+            _friendRepository = dataService;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenFriendDetailViewEvent>()
-                .Subscribe(OnOpenFriendDetailView);
+            
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         private async void OnSaveExecute()
         {
-           await _dataService.SaveAsync(Friend.Model);
+           await _friendRepository.SaveAsync();
+            HasChanges = _friendRepository.HasChanges();
             _eventAggregator.GetEvent<AfterFriendSaveEvent>()
                 .Publish(new AfterFriendSavedEventArgs
                 {
@@ -72,13 +93,7 @@ namespace FriendOrganizer2.UI.ViewModel
 
         private bool OnSaveCanExecute()
         {
-            //TODO: check if friend has changes...
-            return Friend != null && !Friend.HasErrors;
-        }
-
-        private async void OnOpenFriendDetailView(int friendId)
-        {
-            await LoadAsync(friendId);
+            return Friend != null && !Friend.HasErrors && HasChanges;
         }
     }
 }
