@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using FriendOrganizer2.UI.Event;
 using FriendOrganizer2.UI.View.Services;
+using Prism.Commands;
 using Prism.Events;
 
 namespace FriendOrganizer2.UI.ViewModel
@@ -10,12 +12,11 @@ namespace FriendOrganizer2.UI.ViewModel
     {
         private IFriendDetailViewModel _friendDetailViewModel;
         private IEventAggregator _eventAggregator;
-
-        public INavigationViewModel NavigationViewModel { get; }
-
         private Func<IFriendDetailViewModel> _friendDetailViewModelCreator;
         private IMessageDialogService _messageDialogService;
 
+        public INavigationViewModel NavigationViewModel { get; }
+        public ICommand CreateNewFriendCommand { get; }
 
         public IFriendDetailViewModel FriendDetailViewModel
         {
@@ -37,18 +38,22 @@ namespace FriendOrganizer2.UI.ViewModel
             _eventAggregator = eventAggregator;
             _friendDetailViewModelCreator = friendDetailViewModelCreator;
             _messageDialogService = MessageDialogService;
+            _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnOpenFriendDetailView);
+            _eventAggregator.GetEvent<AfterFriendDeletedEvent>().Subscribe(AfterFriendDeleted);
 
-            _eventAggregator.GetEvent<OpenFriendDetailViewEvent>()
-                .Subscribe(OnOpenFriendDetailView);
+            CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendExecute);
             NavigationViewModel = navigationViewModel;
         }
+
+    
+
 
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
         }
 
-        private async void OnOpenFriendDetailView(int friendId)
+        private async void OnOpenFriendDetailView(int? friendId)
         {
             if (FriendDetailViewModel != null && FriendDetailViewModel.HasChanges)
             {
@@ -61,6 +66,16 @@ namespace FriendOrganizer2.UI.ViewModel
             }
            FriendDetailViewModel = _friendDetailViewModelCreator();
             await FriendDetailViewModel.LoadAsync(friendId);
+        }
+
+        private void OnCreateNewFriendExecute()
+        {
+           OnOpenFriendDetailView(null);
+        }
+
+        private void AfterFriendDeleted(int friendId)
+        {
+            FriendDetailViewModel = null;
         }
     }
 }
