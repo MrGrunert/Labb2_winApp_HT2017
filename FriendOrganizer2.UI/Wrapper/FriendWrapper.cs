@@ -1,85 +1,51 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FriendOrganizer2.Model;
 
 namespace FriendOrganizer2.UI.Wrapper
 {
-    public class ModelWrapper<T> :NotifyDataErrorInfoBase
-    {
-        public T Model { get; }
-
-        public ModelWrapper(T model)
-        {
-            Model = model;
-        }
-
-        protected virtual TValue GetValue<TValue>([CallerMemberName]string propertyName = null)
-        {
-            return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
-
-        }
-
-    }
-
     public class FriendWrapper : ModelWrapper<Friend>
     {
-        
+
         public int Id { get { return Model.Id; } }
+
+        public FriendWrapper(Friend model) : base(model)
+        {
+        }
 
         public string FirstName
         {
             get { return GetValue<string>(); }
-            set
-            {
-                Model.FirstName = value;
-                OnPropertyChanged();
-                ValidateProperty(nameof(FirstName));
-            }
+            set { SetValue(value); }
         }
 
-       
 
         public string LastName
         {
             get { return GetValue<string>(); }
-            set
-            {
-                Model.LastName = value;
-                OnPropertyChanged();
-            }
+            set { SetValue(value); }
         }
 
         public string Email
         {
             get { return GetValue<string>(); }
-            set
-            {
-                Model.Email = value;
-                OnPropertyChanged();
-            }
+            set { SetValue(value); }
         }
 
-      
 
-        private void ValidateProperty(string propertyName)
+        protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
-            ClearErrors(propertyName);
             switch (propertyName)
             {
                 case nameof(FirstName):
                     if (string.Equals(FirstName, "Monkies", StringComparison.OrdinalIgnoreCase))
                     {
-                        AddError(propertyName, "Monkies are not valid friends");
+                        yield return "Monkies are not valid friends";
                     }
                     break;
             }
-
-        }
-
-        public FriendWrapper(Friend model) : base(model)
-        {
         }
     }
 }
