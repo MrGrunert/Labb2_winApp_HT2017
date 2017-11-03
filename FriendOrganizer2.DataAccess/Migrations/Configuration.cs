@@ -30,6 +30,11 @@ namespace FriendOrganizer2.DataAccess.Migrations
                new ProgrammingLanguage { Name = "Swift" },
                new ProgrammingLanguage { Name = "Java" }
                );
+
+            context.SaveChanges();
+
+            context.FriendPhoneNumbers.AddOrUpdate(p => p.Number,
+               new FriendPhoneNumber {Number = "+46 12345678", FriendId = context.Friends.First().Id } );
         }
     }
 }
