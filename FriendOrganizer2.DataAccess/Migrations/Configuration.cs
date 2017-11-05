@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FriendOrganizer2.Model;
 
 namespace FriendOrganizer2.DataAccess.Migrations
@@ -35,6 +36,19 @@ namespace FriendOrganizer2.DataAccess.Migrations
 
             context.FriendPhoneNumbers.AddOrUpdate(p => p.Number,
                new FriendPhoneNumber {Number = "+46 12345678", FriendId = context.Friends.First().Id } );
+
+            context.Meetings.AddOrUpdate(m => m.Title,
+                new Meeting
+                {
+                    Title = "Hunting Monsters",
+                    DateFrom = new DateTime(2018, 5, 26),
+                    DateTo = new DateTime(2018, 5, 26),
+                    Friends = new List<Friend>
+                    {
+                        context.Friends.Single(f => f.FirstName == "Dean" && f.LastName == "Winchester"),
+                        context.Friends.Single(f => f.FirstName == "Sam" && f.LastName == "Winchester")
+                    }
+                });
         }
     }
 }

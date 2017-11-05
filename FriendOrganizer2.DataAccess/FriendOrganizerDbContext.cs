@@ -10,6 +10,7 @@ namespace FriendOrganizer2.DataAccess
         public DbSet<Friend> Friends { get; set; }
         public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
         public DbSet<FriendPhoneNumber> FriendPhoneNumbers { get; set; }
+        public DbSet<Meeting> Meetings { get; set; }
 
         public FriendOrganizerDbContext():base("FriendOrganizerDb")
         {
