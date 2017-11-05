@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using FriendOrganizer2.DataAccess;
@@ -9,46 +10,24 @@ using FriendOrganizer2.Model;
 
 namespace FriendOrganizer2.UI.Data.Repositories
 {
-    public class FriendRepository : IFriendRepository
+    public class FriendRepository : GenericRepository<Friend, FriendOrganizerDbContext>,
+        IFriendRepository
     {
-
-        private FriendOrganizerDbContext _context;
-
         public FriendRepository(FriendOrganizerDbContext context)
+            : base(context)
         {
-            _context = context;
         }
 
-        public async Task<Friend> GetBYIdAsync(int friendId)
+        public override async Task<Friend> GetByIdAsync(int friendId)
         {
-            return await _context.Friends
-               .Include(p => p.PhoneNumbers)
-               .SingleAsync(f => f.Id == friendId);
-        }
-
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
-        }
-
-        public void Add(Friend friend)
-        {
-            _context.Friends.Add(friend);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public void Remove(Friend model)
-        {
-            _context.Friends.Remove(model);
+            return await Context.Friends
+                .Include(f => f.PhoneNumbers)
+                .SingleAsync(f => f.Id == friendId);
         }
 
         public void RemovePhoneNumber(FriendPhoneNumber model)
         {
-            _context.FriendPhoneNumbers.Remove(model);
+            Context.FriendPhoneNumbers.Remove(model);
         }
     }
 }
