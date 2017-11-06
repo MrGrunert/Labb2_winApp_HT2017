@@ -29,5 +29,12 @@ namespace FriendOrganizer2.UI.Data.Repositories
         {
             Context.FriendPhoneNumbers.Remove(model);
         }
+        public async Task<bool> HasMeetingsAsync(int friendId)
+        {
+            return await Context.Meetings.AsNoTracking()
+                .Include(m => m.Friends)
+                .AnyAsync(m => m.Friends.Any(f => f.Id == friendId));
+        }
+
     }
 }

@@ -1,18 +1,13 @@
-﻿
-using Prism.Events;
+﻿using Prism.Events;
 
 namespace FriendOrganizer2.UI.Event
 {
-    public class OpenDetailViewEvent : PubSubEvent<OpenDetailViewEventArgs>
+    public class AfterDetailClosedEvent : PubSubEvent<AfterDetailClosedEventArgs>
     {
-
-
     }
-
-    public class OpenDetailViewEventArgs
+    public class AfterDetailClosedEventArgs
     {
         public int Id { get; set; }
         public string ViewModelName { get; set; }
     }
-
 }
