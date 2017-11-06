@@ -22,6 +22,7 @@ namespace FriendOrganizer2.UI.ViewModel
 
         public INavigationViewModel NavigationViewModel { get; }
         public ICommand CreateNewDetailCommand { get; }
+        public ICommand OpenSingleDetailViewCommand { get; }
 
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
 
@@ -54,8 +55,11 @@ namespace FriendOrganizer2.UI.ViewModel
                 .Subscribe(AfterDetailClosed);
 
             CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
+            OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
             NavigationViewModel = navigationViewModel;
         }
+
+     
 
 
         public async Task LoadAsync()
@@ -84,8 +88,22 @@ namespace FriendOrganizer2.UI.ViewModel
         private void OnCreateNewDetailExecute(Type viewModelType)
         {
             OnOpenDetailView(
-                new OpenDetailViewEventArgs {Id = nextNewItemId--, ViewModelName = viewModelType.Name });
+                new OpenDetailViewEventArgs
+                { Id = nextNewItemId--,
+                    ViewModelName = viewModelType.Name
+                });
         }
+
+        private void OnOpenSingleDetailViewExecute(Type viewModelType)
+        {
+            OnOpenDetailView(
+                new OpenDetailViewEventArgs
+                {
+                    Id = -1,
+                    ViewModelName = viewModelType.Name
+                });
+        }
+
 
         private void AfterDetailDeleted(AfterDetailDeletedEventArgs args)
         {
