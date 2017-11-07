@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FriendOrganizer2.DataAccess;
-using FriendOrganizer2.UI.Data;
 using FriendOrganizer2.UI.Data.Lookups;
 using FriendOrganizer2.UI.Data.Repositories;
 using FriendOrganizer2.UI.View.Services;
@@ -19,12 +18,10 @@ namespace FriendOrganizer2.UI.Startup
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
             builder.RegisterType<FriendOrganizerDbContext>().AsSelf();
-
             builder.RegisterType<MainWindow>().AsSelf();
+            builder.RegisterType<MainViewModel>().AsSelf();
 
             builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
-
-            builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
 
             builder.RegisterType<FriendDetailViewModel>()

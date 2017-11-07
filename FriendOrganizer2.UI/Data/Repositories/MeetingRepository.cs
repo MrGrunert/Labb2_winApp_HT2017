@@ -13,7 +13,7 @@ namespace FriendOrganizer2.UI.Data.Repositories
         {
         }
 
-        public async override Task<Meeting> GetByIdAsync(int id)
+        public override async  Task<Meeting> GetByIdAsync(int id)
         {
             return await Context.Meetings
                 .Include(m => m.Friends)

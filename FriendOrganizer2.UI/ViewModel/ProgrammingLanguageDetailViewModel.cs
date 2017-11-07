@@ -34,7 +34,6 @@ namespace FriendOrganizer2.UI.ViewModel
         }
 
 
-
         public ProgrammingLanguageDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
             IProgrammingLanguageRepository programmingLanguageRepository)
@@ -48,7 +47,7 @@ namespace FriendOrganizer2.UI.ViewModel
             RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
         }
 
-        public async override Task LoadAsync(int id)
+        public override async Task LoadAsync(int id)
         {
             Id = id;
 
@@ -79,7 +78,7 @@ namespace FriendOrganizer2.UI.ViewModel
             return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
         }
 
-        protected async override void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
             try
             {
@@ -130,7 +129,7 @@ namespace FriendOrganizer2.UI.ViewModel
             if (isReferenced)
             {
                 await MessageDialogService.ShowInfoDialogAsync($"The language {SelectedProgrammingLanguage.Name}" +
-                                                     $" can't be removed, as it is referenced by at least one friend");
+                                                     " can't be removed, as it is referenced by at least one friend");
                 return;
             }
 

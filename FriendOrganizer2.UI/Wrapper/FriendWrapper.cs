@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using FriendOrganizer2.Model;
 
 namespace FriendOrganizer2.UI.Wrapper
@@ -21,7 +19,6 @@ namespace FriendOrganizer2.UI.Wrapper
             set { SetValue(value); }
         }
 
-
         public string LastName
         {
             get { return GetValue<string>(); }
@@ -34,14 +31,11 @@ namespace FriendOrganizer2.UI.Wrapper
             set { SetValue(value); }
         }
 
-
         public int? FavoriteLanguageId
         {
             get { return GetValue<int?>(); }
             set { SetValue(value); }
         }
-
-
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {

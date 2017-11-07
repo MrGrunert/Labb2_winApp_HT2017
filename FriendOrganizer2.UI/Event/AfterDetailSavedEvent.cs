@@ -1,5 +1,4 @@
 ﻿
-
 using Prism.Events;
 
 namespace FriendOrganizer2.UI.Event

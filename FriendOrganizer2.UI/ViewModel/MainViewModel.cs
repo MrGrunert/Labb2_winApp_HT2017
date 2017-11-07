@@ -59,9 +59,6 @@ namespace FriendOrganizer2.UI.ViewModel
             NavigationViewModel = navigationViewModel;
         }
 
-     
-
-
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
@@ -91,9 +88,7 @@ namespace FriendOrganizer2.UI.ViewModel
                 
                 DetailViewModels.Add(detailViewModel);
             }
-
             SelectedDetailViewModel = detailViewModel;
-
         }
 
         

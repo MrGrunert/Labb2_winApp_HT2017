@@ -18,7 +18,6 @@ namespace FriendOrganizer2.UI.ViewModel
     {
         private IMeetingRepository _meetingRepository;
         private MeetingWrapper _meeting;
-       // private IMessageDialogService _messageDialogService;
         private Friend _selectedAvailableFriend;
         private Friend _selectedAddedFriend;
         private List<Friend> _allFriends;
@@ -69,15 +68,12 @@ namespace FriendOrganizer2.UI.ViewModel
             _meetingRepository = meetingRepository;
             eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
             eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
-            // _messageDialogService = messageDialogService;
 
             AddedFriends = new ObservableCollection<Friend>();
             AvailableFriends = new ObservableCollection<Friend>();
             AddFriendCommand = new DelegateCommand(OnAddFriendExecute, OnAddFriendCanExecute);
             RemoveFriendCommand = new DelegateCommand(OnRemoveFriendExecute, OnRemoveFriendCanExecute);
         }
-
-        
 
         public override async Task LoadAsync(int meetingId)
         {
@@ -94,9 +90,7 @@ namespace FriendOrganizer2.UI.ViewModel
             SetupPicklist();
         }
 
-      
-
-        protected async override void OnDeleteExecute()
+        protected override async void OnDeleteExecute()
         {
             var result = await MessageDialogService.ShowOkCancelDialogAsync($"Do you really want to delete the meeting {Meeting.Title}?", "Question");
             if (result == MessageDialogResult.OK)

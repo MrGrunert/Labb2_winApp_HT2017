@@ -5,8 +5,6 @@ namespace FriendOrganizer2.UI.Event
 {
     public class OpenDetailViewEvent : PubSubEvent<OpenDetailViewEventArgs>
     {
-
-
     }
 
     public class OpenDetailViewEventArgs

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -21,8 +20,6 @@ namespace FriendOrganizer2.UI.ViewModel
         private IFriendRepository _friendRepository;
         private FriendWrapper _friend;
         private FriendPhoneNumberWrapper _selectedPhoneNumber;
-       // private bool _hasChanges;
-       // private IMessageDialogService _messageDialogService;
         private IProgrammingLanguageLookupDataService _programmingLanguageLookupDataService;
 
 
@@ -55,7 +52,6 @@ namespace FriendOrganizer2.UI.ViewModel
             }
         }
 
-
         public FriendDetailViewModel(IFriendRepository friendRepository,
           IEventAggregator eventAggregator,
           IMessageDialogService messageDialogService,
@@ -85,7 +81,6 @@ namespace FriendOrganizer2.UI.ViewModel
             Id = friendId;
 
             InitializeFriend(friend);
-
             InitializeFriendPhoneNumbers(friend.PhoneNumbers);
 
             await LoadProgrammingLanguagesLookupAsync();

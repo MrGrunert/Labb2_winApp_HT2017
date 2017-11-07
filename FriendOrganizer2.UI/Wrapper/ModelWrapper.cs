@@ -20,8 +20,6 @@ namespace FriendOrganizer2.UI.Wrapper
             ValidatePropertyInternal(propertyName, value);
         }
 
-        
-
         protected virtual TValue GetValue<TValue>([CallerMemberName]string propertyName = null)
         {
             return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);

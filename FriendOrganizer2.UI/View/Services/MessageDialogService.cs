@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Threading.Tasks;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -16,7 +11,6 @@ namespace FriendOrganizer2.UI.View.Services
         {
             
             var result = await MetroWindow.ShowMessageAsync(title, text, MessageDialogStyle.AffirmativeAndNegative);
-        // var result =  MessageBox.Show(text, title, MessageBoxButton.OKCancel);
             return result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative
                 ? MessageDialogResult.OK
                 : MessageDialogResult.Cancel;

@@ -1,9 +1,7 @@
 ﻿using Prism.Commands;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FriendOrganizer2.UI.Event;
@@ -74,8 +72,7 @@ namespace FriendOrganizer2.UI.ViewModel
 
         protected virtual void RaiseDetailDeletedEvent(int modelId)
         {
-            EventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(new
-                AfterDetailDeletedEventArgs
+            EventAggregator.GetEvent<AfterDetailDeletedEvent>().Publish(new AfterDetailDeletedEventArgs
                 {
                     Id = modelId,
                     ViewModelName = this.GetType().Name
@@ -102,7 +99,7 @@ namespace FriendOrganizer2.UI.ViewModel
         }
 
 
-        protected async virtual void OnCloseDetailViewExecute()
+        protected virtual async void OnCloseDetailViewExecute()
         {
             if (HasChanges)
             {
@@ -140,9 +137,8 @@ namespace FriendOrganizer2.UI.ViewModel
                 }
 
                 var result = await MessageDialogService.ShowOkCancelDialogAsync("The entity has been changed in "
-                                                                     + "the meantime by someone else. Click OK to save your changes anyway, click Cancel "
-                                                                     + "to reload the entity from the database.", "Question");
-
+                                   + "the meantime by someone else. Click OK to save your changes anyway, click Cancel "
+                                   + "to reload the entity from the database.", "Question");
                 if (result == MessageDialogResult.OK)
                 {
                     // Update the original values with database-values
@@ -157,9 +153,7 @@ namespace FriendOrganizer2.UI.ViewModel
                     await LoadAsync(Id);
                 }
             };
-
             afterSaveAction();
         }
-
     }
 }

@@ -1,6 +1,4 @@
-﻿
-
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using FriendOrganizer2.UI.Event;
 using Prism.Commands;
 using Prism.Events;
@@ -28,8 +26,6 @@ namespace FriendOrganizer2.UI.ViewModel
         }
 
         public ICommand OpenDetailViewCommand { get; }
-
-
 
         public NavigationItemViewModel(int id, string displayMember, 
             string detailViewModelName, IEventAggregator eventAggregator)
