@@ -24,6 +24,7 @@ namespace FriendOrganizer2.UI.ViewModel
         private List<Friend> _allFriends;
         private IWeatherApi _weatherApi;
         private WeatherWrapper _weather;
+        private WeatherWrapper _weatherEndDate;
 
         public ICommand AddFriendCommand { get; }
         public ICommand RemoveFriendCommand { get; }
@@ -69,6 +70,12 @@ namespace FriendOrganizer2.UI.ViewModel
             set { _weather = value; } 
         }
 
+        public WeatherWrapper WeatherEndDate
+        {
+            get { return _weatherEndDate; }
+            set { _weatherEndDate = value; } 
+        }
+
 
         public MeetingDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
@@ -101,6 +108,8 @@ namespace FriendOrganizer2.UI.ViewModel
             SetupPicklist();
 
             _weather = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateFrom));
+
+            _weatherEndDate = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateTo));
         }
 
         protected override async void OnDeleteExecute()
