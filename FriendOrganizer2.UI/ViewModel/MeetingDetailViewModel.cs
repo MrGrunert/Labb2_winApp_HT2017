@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FriendOrganizer2.DataAccess;
 using FriendOrganizer2.Model;
 using FriendOrganizer2.UI.Data.Repositories;
 using FriendOrganizer2.UI.Event;
@@ -21,6 +22,8 @@ namespace FriendOrganizer2.UI.ViewModel
         private Friend _selectedAvailableFriend;
         private Friend _selectedAddedFriend;
         private List<Friend> _allFriends;
+        private IWeatherApi _weatherApi;
+        private WeatherWrapper _weather;
 
         public ICommand AddFriendCommand { get; }
         public ICommand RemoveFriendCommand { get; }
@@ -60,12 +63,20 @@ namespace FriendOrganizer2.UI.ViewModel
             }
         }
 
+        public WeatherWrapper Weather
+        {
+            get { return _weather; }
+            set { _weather = value; } 
+        }
+
 
         public MeetingDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
-            IMeetingRepository meetingRepository) : base(eventAggregator, messageDialogService)
+            IMeetingRepository meetingRepository, IWeatherApi weatherApi) 
+            : base(eventAggregator, messageDialogService)
         {
             _meetingRepository = meetingRepository;
+            _weatherApi = weatherApi;
             eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
             eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
 
@@ -88,6 +99,8 @@ namespace FriendOrganizer2.UI.ViewModel
             _allFriends = await _meetingRepository.GetAllFriendsAsync();
 
             SetupPicklist();
+
+            _weather = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateFrom));
         }
 
         protected override async void OnDeleteExecute()

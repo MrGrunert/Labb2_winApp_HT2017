@@ -16,6 +16,7 @@ namespace FriendOrganizer2.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<WeatherApi>().As<IWeatherApi>().SingleInstance();
 
             builder.RegisterType<FriendOrganizerDbContext>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();

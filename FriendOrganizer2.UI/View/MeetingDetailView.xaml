@@ -16,6 +16,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -58,8 +60,32 @@
                       SelectedItem="{Binding SelectedAvailableFriend}" Grid.Column="2"/>
         </Grid>
 
+        <Label Grid.Row="7" Content="Weather" Margin="10 0"/>
+        <Grid Grid.Row="8" Width="100" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding Weather.applicable_date}" 
+                   FontSize="14" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Weather.weather_state_name}" 
+                       FontSize="12" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Min" FontSize="10" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="Max" FontSize="10" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Weather.min_temp}" 
+                       FontSize="14" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Weather.max_temp}" 
+                       FontSize="14" HorizontalAlignment="Center"/>
+        </Grid>
 
-        <StackPanel Grid.Row="7" Orientation="Horizontal">
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal">
             <Button Content="Save" Width="75"  Margin="10" Command="{Binding SaveCommand}"/>
             <Button Content="Delete" Width="75"  Margin="10" Command="{Binding DeleteCommand}"/>
         </StackPanel>
