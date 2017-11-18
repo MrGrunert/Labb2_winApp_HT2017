@@ -38,15 +38,17 @@ namespace FriendOrganizer2.DataAccess
                 {
                     return new Weather();
                 }
-                return weatherList[0];
+                var tempWeather = weatherList[0];
+                tempWeather.weatherValid = true;
+                return tempWeather;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
 
-           
-           return new Weather();
+
+            return new Weather();
         }
 
         private string DateToString(DateTime date) => $"{date.Year}/{date.Month}/{date.Day}";

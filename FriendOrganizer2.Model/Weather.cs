@@ -23,5 +23,7 @@ namespace FriendOrganizer2.Model
         //public int humidity { get; set; }
         //public float? visibility { get; set; }
         public int predictability { get; set; }
+
+        public bool weatherValid { get; set; }
     }
 }

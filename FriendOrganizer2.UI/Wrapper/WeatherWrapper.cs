@@ -15,7 +15,7 @@ namespace FriendOrganizer2.UI.Wrapper
         public string applicable_date { get { return Model.applicable_date; } }
         private double NumMin { get { return Math.Round((double)Model.min_temp, 1); } }
         private double NumMax { get { return Math.Round((double)Model.max_temp, 1); } }
-        public string min_temp { get { return $"{NumMin.ToString()}°"; } }
-        public string max_temp { get { return $"{NumMax.ToString()}°"; } }
+        public string min_temp => Model.weatherValid ?  $"{NumMin.ToString()}°" : "n/A";
+        public string max_temp => Model.weatherValid ? $"{NumMax.ToString()}°" : "n/A";
     }
 }
