@@ -110,9 +110,9 @@ namespace FriendOrganizer2.UI.ViewModel
             //TODO: if date is set to far into the future the app will crash n burn...So this has to be fixed...
            
             _weather = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateFrom));
-            _weatherEndDate = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateTo));
-
            
+            _weatherEndDate = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateTo));
+          
         }
 
         protected override async void OnDeleteExecute()

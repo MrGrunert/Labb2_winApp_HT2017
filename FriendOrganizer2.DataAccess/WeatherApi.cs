@@ -18,7 +18,7 @@ namespace FriendOrganizer2.DataAccess
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var weather = await GetWeatherAsync($"location/890869/{DateToString(date)}/");
+            var weather = await GetWeatherAsync($"location/890869/{DateToString(date)}/"); // gothenburg = 890869;
 
             return weather;
         }
@@ -27,9 +27,26 @@ namespace FriendOrganizer2.DataAccess
         {
             HttpResponseMessage response = await httpClient.GetAsync(path);
 
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var weatherList = JsonConvert.DeserializeObject<List<Weather>>(jsonString);
-            return weatherList[0];
+
+            try
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var weatherList = JsonConvert.DeserializeObject<List<Weather>>(jsonString);
+
+                //check if weatherlist is null or empty
+                if (weatherList == null || !weatherList.Any())
+                {
+                    return new Weather();
+                }
+                return weatherList[0];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+           
+           return new Weather();
         }
 
         private string DateToString(DateTime date) => $"{date.Year}/{date.Month}/{date.Day}";

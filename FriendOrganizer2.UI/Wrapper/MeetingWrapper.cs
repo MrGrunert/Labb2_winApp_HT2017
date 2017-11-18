@@ -39,6 +39,7 @@ namespace FriendOrganizer2.UI.Wrapper
             }
         }
 
+    
         public MeetingWrapper(Meeting model) : base(model)
         {
         }
