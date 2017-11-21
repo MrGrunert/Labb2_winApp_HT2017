@@ -23,14 +23,16 @@ namespace FriendOrganizer2.UI.ViewModel
         private Friend _selectedAddedFriend;
         private List<Friend> _allFriends;
         private IWeatherApi _weatherApi;
-        private WeatherWrapper _weather;
-        private WeatherWrapper _weatherEndDate;
+
 
         public ICommand AddFriendCommand { get; }
         public ICommand RemoveFriendCommand { get; }
 
         public ObservableCollection<Friend> AddedFriends { get; }
         public ObservableCollection<Friend> AvailableFriends { get; }
+
+        public WeatherWrapper Weather { get; set; }
+        public WeatherWrapper WeatherEndDate { get; set; }
 
         public MeetingWrapper Meeting
         {
@@ -64,19 +66,6 @@ namespace FriendOrganizer2.UI.ViewModel
             }
         }
 
-        public WeatherWrapper Weather
-        {
-            get { return _weather; }
-            set { _weather = value; } 
-        }
-
-        public WeatherWrapper WeatherEndDate
-        {
-            get { return _weatherEndDate; }
-            set { _weatherEndDate = value; } 
-        }
-
-
         public MeetingDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService,
             IMeetingRepository meetingRepository, IWeatherApi weatherApi) 
@@ -107,12 +96,8 @@ namespace FriendOrganizer2.UI.ViewModel
 
             SetupPicklist();
 
-            //TODO: if date is set to far into the future the app will crash n burn...So this has to be fixed...
-           
-            _weather = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateFrom));
-           
-            _weatherEndDate = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateTo));
-          
+            Weather = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateFrom));
+            WeatherEndDate = new WeatherWrapper(await _weatherApi.RunAsync(Meeting.DateTo));
         }
 
         protected override async void OnDeleteExecute()
