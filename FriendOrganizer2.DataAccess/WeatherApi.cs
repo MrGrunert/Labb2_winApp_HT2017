@@ -25,11 +25,12 @@ namespace FriendOrganizer2.DataAccess
 
         private async Task<Weather> GetWeatherAsync(string path)
         {
-            HttpResponseMessage response = await httpClient.GetAsync(path);
+          
 
 
             try
             {
+                HttpResponseMessage response = await httpClient.GetAsync(path);
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var weatherList = JsonConvert.DeserializeObject<List<Weather>>(jsonString);
 
@@ -42,10 +43,15 @@ namespace FriendOrganizer2.DataAccess
                 tempWeather.weatherValid = true;
                 return tempWeather;
             }
+            catch (HttpRequestException hre)
+            {
+                Console.WriteLine(hre);
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
+           
 
 
             return new Weather();
