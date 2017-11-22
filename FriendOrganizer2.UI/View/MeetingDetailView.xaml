@@ -60,7 +60,7 @@
                       SelectedItem="{Binding SelectedAvailableFriend}" Grid.Column="2"/>
         </Grid>
 
-        <Label Grid.Row="7" HorizontalAlignment="Left"   Foreground="LightSalmon" FontStyle="Italic" Content="Weather" Margin="108 0"/>
+        <Label Grid.Row="7" HorizontalAlignment="Left"   Foreground="DarkGray" FontStyle="Italic" Content="Weather" Margin="108 0"/>
         <Grid Grid.Row="8" Width="300" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -87,15 +87,15 @@
                        FontSize="14" HorizontalAlignment="Center"/>
 
 
-            <Label Grid.Row="0" Grid.Column="3"  Grid.ColumnSpan="3" Foreground="Red" Content="{Binding WeatherEndDate.applicable_date}" 
+            <Label Grid.Row="0" Grid.Column="3"  Grid.ColumnSpan="3" Foreground="DarkSalmon" Content="{Binding WeatherEndDate.applicable_date}" 
                    FontSize="14" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Foreground="Red" Text="{Binding WeatherEndDate.weather_state_name}" 
+            <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Foreground="DarkSalmon" Text="{Binding WeatherEndDate.weather_state_name}" 
                        FontSize="13" HorizontalAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="3" Foreground="Red" Content="Min" FontSize="12" HorizontalAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="4" Foreground="Red" Content="Max" FontSize="12" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="3" Grid.Column="3" Foreground="Red" Text="{Binding WeatherEndDate.min_temp}" 
+            <Label Grid.Row="2" Grid.Column="3" Foreground="DarkSalmon" Content="Min" FontSize="12" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="4" Foreground="DarkSalmon" Content="Max" FontSize="12" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="3" Foreground="DarkSalmon" Text="{Binding WeatherEndDate.min_temp}" 
                        FontSize="14" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="3" Grid.Column="4" Foreground="Red" Text="{Binding WeatherEndDate.max_temp}" 
+            <TextBlock Grid.Row="3" Grid.Column="4" Foreground="DarkSalmon" Text="{Binding WeatherEndDate.max_temp}" 
                        FontSize="14" HorizontalAlignment="Center"/>
         </Grid>
 
